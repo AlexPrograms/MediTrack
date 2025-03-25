@@ -1,10 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+
+{% block content %}
+
+
+    <div class="column-md-6 offset-md-3">
+    {% if user.is_authenticated %}
+        <h1>Welcome</h1>
+    {% else %}    
+        <h1>Login</h1>
+        <form method="POST" action="{% url 'home' %}">
+            {% csrf_token %}
+            <br>
+            <div class="mb-3">
+                <input type="email" class="form-control" placeholder="Email address" name="Email">
+                <div id="emailHelp" class="form-text">We'll share your email with everybody else.</div>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control"  name="Username"  placeholder="Enter your username" required>
+            </div>
+              <div class="mb-3">
+                <input type="password" class="form-control" placeholder="Password" name="Password" required>
+              </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input">
+                <label class="form-check-label" for="exampleCheck1">I want to be scammed</label>
+              </div>
+            <br>
+              <button type="submit" class="btn btn-primary bg-dark">Login</button>
+
+        </form>
+
+    </div>
+
+    {% endif %}
+
+
+
+{% endblock %}

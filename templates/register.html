@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block content %}
+
+<form method="POST" style="text-align: left; margin: 0 auto; width: 600px;">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" class="btn btn-secondary" name="Submit">
+</form>
+
+{% endblock %}

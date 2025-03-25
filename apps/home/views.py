@@ -7,17 +7,29 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import CreateView
 from django.shortcuts import redirect
+from apps.home.decorators import role_required
+from django.contrib import messages
 
+#@method_decorator(role_required("doctor"), name="dispatch")
 
 class SignUpView(CreateView):
     form_class = UserCreationForm
     template_name = 'register.html'
-    success_url = '/appointments'
+    #success_url = ''
 
     def get(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
             return redirect('/login')
         return super().get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, f"Welcome, {self.request.user.username}!")
+        return response
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Invalid username or password. Please try again.")
+        return super().form_invalid(form)
 
 
 class HomeView(TemplateView):
@@ -26,8 +38,24 @@ class HomeView(TemplateView):
 
 class LoginInterfaceView(LoginView):
     template_name = 'login.html'
+    next_page = '/'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, f"Welcome back, {self.request.user.username}!")
+        return response
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Invalid username or password. Please try again.")
+        return super().form_invalid(form)
+
 
 
 class LogoutInterfaceView(LogoutView):
-    template_name = 'logout.html'
+    #template_name = 'logout.html'
+    next_page = '/'
+    #success_url = '/login'
 
+    def dispatch(self, request, *args, **kwargs):
+        messages.info(request, "You have been successfully logged out.")
+        return super().dispatch(request, *args, **kwargs)
