@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Your Appointments</h2>
+    <a href="{% url 'create_appointment' %}" class="btn btn-success mb-3">Create New Appointment</a>
+
+    {% if appointments %}
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Date</th>
+                    <th>Doctor</th>
+                    <th>Specialization</th>
+                    <th>Reason</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                    <tr>
+                        <td>{{ appointment.date }}</td>
+                        <td>{{ appointment.doctor.username }} {{ appointment.doctor.last_name }}</td>
+                        <td>{{ appointment.doctor.doctor.specialization }}</td>
+                        <td>{{ appointment.reason }}</td>
+                        <td>
+                            <a href="{% url 'update_appointment' appointment.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'delete_appointment' appointment.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No appointments yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

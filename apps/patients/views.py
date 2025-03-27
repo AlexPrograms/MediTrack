@@ -1,5 +1,9 @@
+from datetime import timedelta
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.utils.timezone import now
+
 from apps.home.decorators import role_required
 from apps.doctors.models import Doctor
 from apps.appointments.models import Appointment
@@ -11,13 +15,13 @@ from .forms import AppointmentForm, PatientUpdateForm
 @role_required("patient")
 def view_doctors(request):
     doctors = Doctor.objects.filter(available=True)
-    return render(request, "view_doctors.html", {"doctors": doctors})
+    return render(request, "patients_templates/view_doctors.html", {"doctors": doctors})
 
 @login_required
 @role_required("patient")
 def list_appointments(request):
     appointments = Appointment.objects.filter(patient=request.user)
-    return render(request, "appointments.html", {"appointments": appointments})
+    return render(request, "patients_templates/appointments.html", {"appointments": appointments})
 
 @login_required
 @role_required("patient")
@@ -32,12 +36,17 @@ def create_appointment(request):
             return redirect("list_appointments")
     else:
         form = AppointmentForm()
-    return render(request, "appointment_form.html", {"form": form})
+    return render(request, "patients_templates/appointment_form.html", {"form": form})
 
 @login_required
 @role_required("patient")
 def update_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id, patient=request.user)
+
+    if appointment.date - now() < timedelta(hours=24):
+        messages.error(request, "You cannot edit an appointment that is within 24 hours.")
+        return redirect("list_appointments")
+
     if request.method == "POST":
         form = AppointmentForm(request.POST, instance=appointment)
         if form.is_valid():
@@ -46,17 +55,22 @@ def update_appointment(request, appointment_id):
             return redirect("list_appointments")
     else:
         form = AppointmentForm(instance=appointment)
-    return render(request, "appointment_form.html", {"form": form})
+    return render(request, "patients_templates/appointment_form.html", {"form": form})
 
 @login_required
 @role_required("patient")
 def delete_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id, patient=request.user)
+
+    if appointment.date - now() < timedelta(hours=24):
+        messages.error(request, "You cannot delete an appointment that is within 24 hours.")
+        return redirect("list_appointments")
+
     if request.method == "POST":
         appointment.delete()
         messages.success(request, "Appointment deleted successfully!")
         return redirect("list_appointments")
-    return render(request, "delete_appointment.html", {"appointment": appointment})
+    return render(request, "patients_templates/delete_appointment.html", {"appointment": appointment})
 
 @login_required
 @role_required("patient")
@@ -70,4 +84,4 @@ def update_patient_details(request):
             return redirect("update_patient_details")
     else:
         form = PatientUpdateForm(instance=patient)
-    return render(request, "update_details.html", {"form": form})
+    return render(request, "patients_templates/update_details.html", {"form": form})

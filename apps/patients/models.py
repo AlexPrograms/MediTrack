@@ -1,13 +1,17 @@
+from django.conf.global_settings import AUTH_USER_MODEL
 from django.db import models
 from apps.home.models import User  # Import the custom User model
 from django.conf import settings
 
 
 class Patient(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, limit_choices_to={"role": "patient"})
-    date_of_birth = models.DateField()
-    age = models.PositiveIntegerField()
-    gender = models.CharField(max_length=10, null=True, choices=(("male", "Male"), ("female", "Female"),
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE,
+                                related_name="patient",
+                                limit_choices_to={"role": "patient"})
+    date_of_birth = models.DateField(blank=True, null=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
+    gender = models.CharField(max_length=10, blank=True, null=True, choices=(("male", "Male"), ("female", "Female"),
                                                       ("other", "Other")))
 
     # Medical Details

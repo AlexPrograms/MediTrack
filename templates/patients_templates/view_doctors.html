@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">Available Doctors</h2>
+
+    {% if doctors %}
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Doctor Name</th>
+                    <th scope="col">Specialization</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Experience (Years)</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doctor in doctors %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td> {{ doctor.user.username }} {{ doctor.user.last_name }}</td>
+                    <td>{{ doctor.specialization }}</td>
+                    <td>{{ doctor.phone }}</td>
+                    <td>{{ doctor.experience_years }}</td>
+                    <td>
+                        {% if doctor.available %}
+                            <span class="badge bg-success">Available</span>
+                        {% else %}
+                            <span class="badge bg-danger">Unavailable</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            No doctors are available at the moment.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Update Health Information</h3>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label">Date of Birth</label>
+                        {{ form.date_of_birth }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Age</label>
+                        {{ form.age }}
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Gender</label>
+                        {{ form.gender }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Blood Type</label>
+                        {{ form.blood_type }}
+                    </div>
+                </div>
+
+                <hr>
+
+                <h5>Medical Information</h5>
+                <div class="mb-3">
+                    <label class="form-label">Medical History</label>
+                    {{ form.medical_history }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Current Condition</label>
+                    {{ form.current_condition }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Allergies</label>
+                    {{ form.allergies }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Medications</label>
+                    {{ form.medications }}
+                </div>
+
+                <hr>
+
+                <h5>Vitals & Measurements</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">Weight (kg)</label>
+                        {{ form.weight }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Height (cm)</label>
+                        {{ form.height }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Heart Rate (BPM)</label>
+                        {{ form.heart_rate }}
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Blood Pressure</label>
+                        {{ form.blood_pressure }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Cholesterol Level (mg/dL)</label>
+                        {{ form.cholesterol_level }}
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Glucose Level (mg/dL)</label>
+                        {{ form.glucose_level }}
+                    </div>
+                </div>
+
+                <hr>
+
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
