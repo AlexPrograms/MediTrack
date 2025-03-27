@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">Patient Medical Record</h2>
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5>{{ patient.user.username }} ({{ patient.user.first_name }})</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Date of Birth:</strong> {{ patient.date_of_birth }}</li>
+                <li class="list-group-item"><strong>Age:</strong> {{ patient.age }}</li>
+                <li class="list-group-item"><strong>Gender:</strong> {{ patient.gender }}</li>
+                <li class="list-group-item"><strong>Medical History:</strong> {{ patient.medical_history }}</li>
+                <li class="list-group-item"><strong>Current Condition:</strong> {{ patient.current_condition }}</li>
+                <li class="list-group-item"><strong>Allergies:</strong> {{ patient.allergies }}</li>
+                <li class="list-group-item"><strong>Medications:</strong> {{ patient.medications }}</li>
+                <li class="list-group-item"><strong>Blood Type:</strong> {{ patient.blood_type }}</li>
+                <li class="list-group-item"><strong>Weight:</strong> {{ patient.weight }} kg</li>
+                <li class="list-group-item"><strong>Height:</strong> {{ patient.height }} cm</li>
+                <li class="list-group-item"><strong>Blood Pressure:</strong> {{ patient.blood_pressure }}</li>
+                <li class="list-group-item"><strong>Heart Rate:</strong> {{ patient.heart_rate }} bpm</li>
+                <li class="list-group-item"><strong>Cholesterol Level:</strong> {{ patient.cholesterol_level }} mg/dL</li>
+                <li class="list-group-item"><strong>Glucose Level:</strong> {{ patient.glucose_level }} mg/dL</li>
+            </ul>
+        </div>
+    </div>
+
+    <a href="{% url 'view_patients' %}" class="btn btn-secondary mt-3">Back to Patients</a>
+</div>
+{% endblock %}
