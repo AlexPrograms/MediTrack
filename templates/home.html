@@ -9,7 +9,7 @@
         <h1>Welcome</h1>
     {% else %}    
         <h1>Login</h1>
-        <form method="POST" action="{% url 'home' %}">
+        <form method="POST" action="{% url 'login' %}">
             {% csrf_token %}
             <br>
             <div class="mb-3">

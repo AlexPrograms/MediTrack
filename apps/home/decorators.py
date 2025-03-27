@@ -3,7 +3,7 @@ from django.http import HttpResponseForbidden
 from functools import wraps
 
 def role_required(role):
-    """Decorator to restrict views based on user role."""
+    """Decorator to restrict views based on user role"""
     def decorator(view_func):
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):

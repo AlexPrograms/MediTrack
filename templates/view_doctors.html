@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Available Doctors</h2>
+<ul>
+    {% for doctor in doctors %}
+        <li>Dr. {{ doctor.user.first_name }} {{ doctor.user.last_name }} - {{ doctor.specialization }}</li>
+    {% empty %}
+        <li>No available doctors at the moment.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
