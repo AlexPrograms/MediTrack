@@ -1,19 +1,53 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mt-4">
-    <h2 class="mb-3">Your Appointments</h2>
-    
-    <div class="mb-3">
-        <a href="?sort=date" class="btn btn-primary">Sort by Date</a>
-        <a href="?sort=patient" class="btn btn-secondary">Sort by Patient Name</a>
+    <h2 class="text-center mb-4">Your Appointments</h2>
+
+    <!-- Sorting & Filtering Section -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <!-- Sorting -->
+        <div class="btn-group">
+            <button class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+                Sort by Date
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="?sort=date&algo=quick">Quick Sort</a></li>
+                <li><a class="dropdown-item" href="?sort=date&algo=bubble">Bubble Sort</a></li>
+            </ul>
+            <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                Sort by Patient
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="?sort=patient&algo=quick">Quick Sort</a></li>
+                <li><a class="dropdown-item" href="?sort=patient&algo=bubble">Bubble Sort</a></li>
+            </ul>
+        </div>
+
+        <!-- Filtering -->
+{#        <div class="btn-group">#}
+{#    <a href="?status=scheduled" class="btn btn-outline-info">Scheduled</a>#}
+{#    <a href="?status=completed" class="btn btn-outline-success">Completed</a>#}
+{#    <a href="?status=canceled" class="btn btn-outline-danger">Canceled</a>#}
+{#    <a href="?status=all" class="btn btn-outline-primary">All</a>#}
+{#</div>#}
     </div>
 
-    <table class="table table-bordered table-hover">
-        <thead class="thead-dark">
+    <!-- Search Bar -->
+    <form method="GET" action="{% url 'search_patient_appointments' %}" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search patient by name or username..." value="{{ request.GET.q }}">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+
+    <!-- Appointments Table -->
+    <table class="table table-bordered table-hover text-center">
+        <thead class="table-dark">
             <tr>
                 <th>Date</th>
                 <th>Patient</th>
                 <th>Reason</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,6 +57,17 @@
                 <td>{{ appointment.date }}</td>
                 <td>{{ appointment.patient.username }} ({{ appointment.patient.first_name }})</td>
                 <td>{{ appointment.reason }}</td>
+                <td>
+                {% if appointment.status == "scheduled" %}
+                    <span class="badge bg-primary">Scheduled</span>
+                {% elif appointment.status == "completed" %}
+                    <span class="badge bg-success">Completed</span>
+                {% elif appointment.status == "Cancelled" %}
+                    <span class="badge bg-danger">Canceled</span>
+                {% else %}
+                    <span class="badge bg-secondary">Unknown</span>
+                {% endif %}
+            </td>
                 <td>
                     <a href="{% url 'cancel_appointment' appointment.id %}" class="btn btn-danger btn-sm">Cancel</a>
                 </td>

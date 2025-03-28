@@ -67,8 +67,10 @@ def delete_appointment(request, appointment_id):
         return redirect("list_appointments")
 
     if request.method == "POST":
-        appointment.delete()
-        messages.success(request, "Appointment deleted successfully!")
+        #appointment.delete() hard delete
+        appointment.status = "Cancelled"
+        appointment.save()
+        messages.success(request, "Appointment has been cancelled successfully!")
         return redirect("list_appointments")
     return render(request, "patients_templates/delete_appointment.html", {"appointment": appointment})
 

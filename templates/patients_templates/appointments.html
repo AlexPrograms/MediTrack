@@ -18,6 +18,7 @@
             </thead>
             <tbody>
                 {% for appointment in appointments %}
+                    {% if appointment.status != "Cancelled" %}
                     <tr>
                         <td>{{ appointment.date }}</td>
                         <td>{{ appointment.doctor.username }} {{ appointment.doctor.last_name }}</td>
@@ -28,6 +29,7 @@
                             <a href="{% url 'delete_appointment' appointment.id %}" class="btn btn-danger btn-sm">Delete</a>
                         </td>
                     </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>
