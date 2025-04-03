@@ -7,7 +7,7 @@ from django.utils.timezone import now
 from apps.appointments.models import Appointment
 from apps.patients.models import Patient
 from apps.home.decorators import role_required
-from apps.appointments.utils import bubble_sort, quick_sort, filter_appointments
+from apps.appointments.utils import BubbleSort, QuickSort, SortContext
 
 
 @login_required
@@ -15,40 +15,21 @@ from apps.appointments.utils import bubble_sort, quick_sort, filter_appointments
 def view_appointments(request):
     doctor = request.user
     sort_by = request.GET.get("sort", "date")
-    #filter_status = request.GET.get("status", "all")
-    # default sorting logic, used previously
-    # if sort_by == "patient":
-    #     appointments = Appointment.objects.filter(doctor=doctor).order_by("patient__last_name")
-    # else:
-    #     appointments = Appointment.objects.filter(doctor=doctor).order_by("date")
-    # custom sorting logic with quick and bubble sorts
     filter_status = request.GET.get("status", None)
     algorithm = request.GET.get("algo", "quick")  # change to choose different algo
 
     appointments = list(Appointment.objects.filter(doctor=doctor))
 
-    # if filter_status == "scheduled":
-    #     appointments = appointments.filter(status="scheduled")
-    # elif filter_status == "completed":
-    #     appointments = appointments.filter(Q(status="completed") | Q(date__lt=now(), ~Q(status="canceled")))
-    # elif filter_status == "canceled":
-    #     appointments = appointments.filter(status="canceled")
-    #appointments = filter_appointments(appointments, status=filter_status)
+    key_func = (lambda x: x.patient.first_name.lower()) if sort_by == "patient" else (lambda x: x.date)
 
+    # Initialize sorting strategy context
+    sort_context = SortContext(QuickSort())  # Default sorting strategy
 
-    if filter_status:
-        appointments = filter_appointments(appointments, status=filter_status)
-
-    if sort_by == "patient":
-        key_func = lambda x: x.patient.first_name.lower()
-    else:
-        key_func = lambda x: x.date
-
-    # Use selected sorting algorithm
     if algorithm == "bubble":
-        appointments = bubble_sort(appointments, key_func)
-    else:
-        appointments = quick_sort(appointments, key_func)
+        sort_context.set_strategy(BubbleSort())
+
+    # Execute sorting
+    appointments = sort_context.execute_sort(appointments, key_func)
 
     return render(request, "doctors_templates/view_appointments.html", {"appointments": appointments})
 
