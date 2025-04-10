@@ -20,10 +20,12 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.home.urls')),
-    path('', include('apps.doctors.urls')),
-    path('', include('apps.patients.urls')),
-    path('', include('apps.appointments.urls')),
-path('api/doctors/', include('apps.doctors.urls')),
+    # path('', include('apps.doctors.urls')),
+    # path('', include('apps.patients.urls')),
+    # path('', include('apps.appointments.urls')),
+
+    # API Routes
+    path('api/doctors/', include('apps.doctors.urls')),
     path('api/patients/', include('apps.patients.urls')),
     path('api/appointments/', include('apps.appointments.urls')),
     path('api-auth/', include('rest_framework.urls')),
