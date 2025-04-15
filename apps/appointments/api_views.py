@@ -1,7 +1,8 @@
 # apps/appointments/api_views.py
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, permissions, status, filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Appointment
 from .serializers import AppointmentSerializer
 from apps.home.permissions import IsDoctor, IsPatient
@@ -16,6 +17,10 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['status', 'date']
+    search_fields = ['doctor__user__username', 'patient__username', 'notes']
+    ordering_fields = ['date', 'status']
 
     def get_queryset(self):
         """

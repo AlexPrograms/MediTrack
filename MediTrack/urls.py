@@ -25,9 +25,10 @@ urlpatterns = [
     # path('', include('apps.appointments.urls')),
 
     # API Routes
-    path('api/doctors/', include('apps.doctors.urls')),
-    path('api/patients/', include('apps.patients.urls')),
-    path('api/appointments/', include('apps.appointments.urls')),
+    path('api/doctors/', include('apps.doctors.api_urls')),
+    path('api/patients/', include('apps.patients.api_urls')),
+    path('api/appointments/', include('apps.appointments.api_urls')),
+    path('api/auth/', include('apps.home.api_urls')),
     path('api-auth/', include('rest_framework.urls')),
 
     #Swagger
