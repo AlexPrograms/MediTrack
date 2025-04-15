@@ -9,6 +9,6 @@ class AppointmentSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Appointment
-        fields = ['id', 'doctor', 'patient', 'date', 'time', 'status', 'notes',
+        fields = ['id', 'doctor', 'patient', 'date', 'status', 'description',
                  'doctor_details', 'patient_details']
         read_only_fields = ['status']  # Status can only be changed through specific actions
