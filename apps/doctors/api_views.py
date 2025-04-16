@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
 from django.db.models import Count
 
-from apps.home.permissions import IsDoctor  # Import custom permission
+from apps.home.permissions import IsDoctor  
 from .models import Doctor
 from .serializers import DoctorSerializer
 from apps.appointments.models import Appointment
