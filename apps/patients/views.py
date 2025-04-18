@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.timezone import now
 
-from apps.home.decorators import role_required
+from apps.core.decorators import role_required
 from apps.doctors.models import Doctor
 from apps.appointments.models import Appointment
 from apps.patients.models import Patient

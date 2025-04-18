@@ -6,7 +6,7 @@ from django.utils.timezone import now
 
 from apps.appointments.models import Appointment
 from apps.patients.models import Patient
-from apps.home.decorators import role_required
+from apps.core.decorators import role_required
 from apps.appointments.utils import BubbleSort, QuickSort, SortContext
 
 

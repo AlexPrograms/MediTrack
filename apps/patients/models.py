@@ -1,6 +1,6 @@
 from django.conf.global_settings import AUTH_USER_MODEL
 from django.db import models
-from apps.home.models import User  # Import the custom User model
+from apps.core.models import User  # Import the custom User model
 from django.conf import settings
 
 

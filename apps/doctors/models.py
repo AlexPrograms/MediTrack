@@ -1,5 +1,5 @@
 from django.db import models
-from apps.home.models import User  # Import the custom User model
+from apps.core.models import User  # Import the custom User model
 from django.conf import settings
 
 class Doctor(models.Model):
@@ -8,7 +8,7 @@ class Doctor(models.Model):
                                 related_name="doctor",
                                 limit_choices_to={"role": "doctor"})
     specialization = models.CharField(max_length=100, blank=True, null=True)
-    phone = models.CharField(max_length=15, blank=True, null=True)
+    phone = models.CharField(max_length=15, blank=True, null=True, unique=True)
     experience_years = models.PositiveIntegerField(blank=True, null=True)
     available = models.BooleanField(default=True)
 

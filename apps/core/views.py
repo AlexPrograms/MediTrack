@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import CreateView
 from django.shortcuts import redirect
-from apps.home.decorators import role_required
+from apps.core.decorators import role_required
 from django.contrib import messages
 from .forms import RegistrationForm
 from django.contrib.auth import get_user_model, login

@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from apps.home.models import User  # Import the actual User model
+from apps.core.models import User  # Import the actual User model
 from apps.doctors.models import Doctor
 from apps.patients.models import Patient
 

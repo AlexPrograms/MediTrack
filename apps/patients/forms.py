@@ -6,7 +6,7 @@ from django.utils.timezone import now
 from apps.appointments.models import Appointment
 from apps.patients.models import Patient
 from apps.doctors.models import Doctor
-from apps.home.models import User
+from apps.core.models import User
 
 class AppointmentForm(forms.ModelForm):
     class Meta:
